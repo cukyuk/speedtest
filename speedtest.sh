@@ -29,10 +29,11 @@ do
   fi
 done
 HOSTED=$(echo $(cat /tmp/${BASENAME}.tmp  |grep '^Hosted' |paste - - - ))
+PINGTIME=$(echo $HOSTED| awk -F':' '{print$2}')
 DOWNLOAD=$(echo $(cat /tmp/${BASENAME}.tmp  |grep  '^Download'  |paste - - - ))
 UPLOAD=$(echo $(cat /tmp/${BASENAME}.tmp  |grep '^Upload' |paste - - - ))
 SPEED=$(echo $(cat /tmp/${BASENAME}.tmp  |grep -e '^Hosted' -e '^Download' -e '^Upload' |paste - - - ))
 SERVERNUMBER=$(cat ./servers.done |tail -1)
 NOW=$(date +"%Y-%m-%d_%H:%M")
 
-echo "$NOW $BASENAME $DOWNLOAD $UPLOAD  servernumber $SERVERNUMBER $HOSTED" |tee -a $LOG
+echo "$NOW $BASENAME ping $PINGTIME $DOWNLOAD $UPLOAD  servernumber $SERVERNUMBER $HOSTED" |tee -a $LOG
